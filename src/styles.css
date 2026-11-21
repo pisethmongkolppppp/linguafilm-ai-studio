@@ -1,35 +1,25 @@
 /*
  * Tailwind v4 entry: config lives here, with no tailwind.config.js or PostCSS plugin.
- * - Keep every @import in this top block, above @theme and the rest of the file. Install an
- *   npm package before @importing its CSS. Never @import a remote URL (web fonts, CDN CSS): the
- *   build resolves @import from the filesystem. Load those with a <link> in the head() of
- *   src/routes/__root.tsx and name the family in a --font-* token in @theme inline below.
+ * Keep every @import in this top block. Web fonts load via <link> in src/routes/__root.tsx.
  */
 @import "tailwindcss" source(none);
 @source "../src";
+@source "../node_modules/streamdown/dist/*.js";
 @import "tw-animate-css";
 
 @custom-variant dark (&:is(.dark *));
 
 /*
- * Design system definition.
- *
- * The design lives in this file: oklch color tokens on the shadcn variables
- * (--background, --foreground, --primary, --secondary, --muted, --accent, ...) plus
- * new tokens as needed, font tokens, and custom styles and animations.
- *
- * The @theme inline block maps CSS custom properties to Tailwind utility
- * classes (e.g. --color-primary -> bg-primary, text-primary).
- *
- * The :root and .dark blocks define the actual color values using oklch.
- * All colors MUST use oklch format.
- *
- * To add a new semantic color:
- * 1. Add the variable to :root (light value) and .dark (dark value)
- * 2. Register it in @theme inline as --color-<name>: var(--<name>)
+ * LinguaFilm AI Studio design system — "night studio console".
+ * Deep ink surfaces, violet primary, electric-blue secondary accent,
+ * monospace timecodes. The app is dark-only; :root holds the palette.
  */
 
 @theme inline {
+  --font-sans: "Manrope", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Sora", "Manrope", ui-sans-serif, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, monospace;
+
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
@@ -57,6 +47,16 @@
   --color-input: var(--input);
   --color-ring: var(--ring);
   --color-ring-offset-background: var(--background);
+  --color-electric: var(--electric);
+  --color-electric-foreground: var(--electric-foreground);
+  --color-success: var(--success);
+  --color-warning: var(--warning);
+  --color-surface: var(--surface);
+  --color-surface-raised: var(--surface-raised);
+  --color-platform-facebook: var(--platform-facebook);
+  --color-platform-tiktok: var(--platform-tiktok);
+  --color-platform-instagram: var(--platform-instagram);
+  --color-platform-youtube: var(--platform-youtube);
   --color-chart-1: var(--chart-1);
   --color-chart-2: var(--chart-2);
   --color-chart-3: var(--chart-3);
@@ -70,77 +70,133 @@
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
+
+  --animate-float-glow: float-glow 9s ease-in-out infinite;
+  --animate-scan: scan 2.4s linear infinite;
 }
 
-:root {
-  --radius: 0.625rem;
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.129 0.042 264.695);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.129 0.042 264.695);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.129 0.042 264.695);
-  --primary: oklch(0.208 0.042 265.755);
-  --primary-foreground: oklch(0.984 0.003 247.858);
-  --secondary: oklch(0.968 0.007 247.896);
-  --secondary-foreground: oklch(0.208 0.042 265.755);
-  --muted: oklch(0.968 0.007 247.896);
-  --muted-foreground: oklch(0.554 0.046 257.417);
-  --accent: oklch(0.968 0.007 247.896);
-  --accent-foreground: oklch(0.208 0.042 265.755);
-  --destructive: oklch(0.577 0.245 27.325);
-  --destructive-foreground: oklch(0.984 0.003 247.858);
-  --border: oklch(0.929 0.013 255.508);
-  --input: oklch(0.929 0.013 255.508);
-  --ring: oklch(0.704 0.04 256.788);
-  --chart-1: oklch(0.646 0.222 41.116);
-  --chart-2: oklch(0.6 0.118 184.704);
-  --chart-3: oklch(0.398 0.07 227.392);
-  --chart-4: oklch(0.828 0.189 84.429);
-  --chart-5: oklch(0.769 0.188 70.08);
-  --sidebar: oklch(0.984 0.003 247.858);
-  --sidebar-foreground: oklch(0.129 0.042 264.695);
-  --sidebar-primary: oklch(0.208 0.042 265.755);
-  --sidebar-primary-foreground: oklch(0.984 0.003 247.858);
-  --sidebar-accent: oklch(0.968 0.007 247.896);
-  --sidebar-accent-foreground: oklch(0.208 0.042 265.755);
-  --sidebar-border: oklch(0.929 0.013 255.508);
-  --sidebar-ring: oklch(0.704 0.04 256.788);
-}
-
+:root,
 .dark {
-  --background: oklch(0.129 0.042 264.695);
-  --foreground: oklch(0.984 0.003 247.858);
-  --card: oklch(0.208 0.042 265.755);
-  --card-foreground: oklch(0.984 0.003 247.858);
-  --popover: oklch(0.208 0.042 265.755);
-  --popover-foreground: oklch(0.984 0.003 247.858);
-  --primary: oklch(0.929 0.013 255.508);
-  --primary-foreground: oklch(0.208 0.042 265.755);
-  --secondary: oklch(0.279 0.041 260.031);
-  --secondary-foreground: oklch(0.984 0.003 247.858);
-  --muted: oklch(0.279 0.041 260.031);
-  --muted-foreground: oklch(0.704 0.04 256.788);
-  --accent: oklch(0.279 0.041 260.031);
-  --accent-foreground: oklch(0.984 0.003 247.858);
-  --destructive: oklch(0.704 0.191 22.216);
-  --destructive-foreground: oklch(0.984 0.003 247.858);
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.551 0.027 264.364);
-  --chart-1: oklch(0.488 0.243 264.376);
-  --chart-2: oklch(0.696 0.17 162.48);
-  --chart-3: oklch(0.769 0.188 70.08);
-  --chart-4: oklch(0.627 0.265 303.9);
-  --chart-5: oklch(0.645 0.246 16.439);
-  --sidebar: oklch(0.208 0.042 265.755);
-  --sidebar-foreground: oklch(0.984 0.003 247.858);
-  --sidebar-primary: oklch(0.488 0.243 264.376);
-  --sidebar-primary-foreground: oklch(0.984 0.003 247.858);
-  --sidebar-accent: oklch(0.279 0.041 260.031);
-  --sidebar-accent-foreground: oklch(0.984 0.003 247.858);
-  --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: oklch(0.551 0.027 264.364);
+  --radius: 0.75rem;
+  --background: oklch(0.145 0.022 278);
+  --foreground: oklch(0.965 0.008 285);
+  --surface: oklch(0.17 0.025 278);
+  --surface-raised: oklch(0.205 0.03 280);
+  --card: oklch(0.175 0.026 278);
+  --card-foreground: oklch(0.965 0.008 285);
+  --popover: oklch(0.19 0.03 280);
+  --popover-foreground: oklch(0.965 0.008 285);
+  --primary: oklch(0.66 0.21 296);
+  --primary-foreground: oklch(0.99 0.004 290);
+  --electric: oklch(0.7 0.16 248);
+  --electric-foreground: oklch(0.15 0.03 260);
+  --secondary: oklch(0.23 0.032 280);
+  --secondary-foreground: oklch(0.95 0.01 285);
+  --muted: oklch(0.215 0.026 280);
+  --muted-foreground: oklch(0.71 0.03 282);
+  --accent: oklch(0.255 0.045 286);
+  --accent-foreground: oklch(0.97 0.01 285);
+  --destructive: oklch(0.65 0.2 22);
+  --destructive-foreground: oklch(0.99 0.004 290);
+  --success: oklch(0.76 0.15 162);
+  --warning: oklch(0.82 0.14 78);
+  --border: oklch(1 0 0 / 8%);
+  --input: oklch(1 0 0 / 12%);
+  --ring: oklch(0.66 0.21 296);
+
+  --platform-facebook: oklch(0.6 0.19 262);
+  --platform-tiktok: oklch(0.78 0.13 195);
+  --platform-instagram: oklch(0.66 0.23 355);
+  --platform-youtube: oklch(0.62 0.23 28);
+
+  --chart-1: oklch(0.66 0.21 296);
+  --chart-2: oklch(0.7 0.16 248);
+  --chart-3: oklch(0.76 0.15 162);
+  --chart-4: oklch(0.82 0.14 78);
+  --chart-5: oklch(0.66 0.23 355);
+
+  --sidebar: oklch(0.125 0.02 278);
+  --sidebar-foreground: oklch(0.9 0.012 285);
+  --sidebar-primary: oklch(0.66 0.21 296);
+  --sidebar-primary-foreground: oklch(0.99 0.004 290);
+  --sidebar-accent: oklch(0.21 0.035 284);
+  --sidebar-accent-foreground: oklch(0.98 0.008 285);
+  --sidebar-border: oklch(1 0 0 / 7%);
+  --sidebar-ring: oklch(0.66 0.21 296);
+
+  --gradient-brand: linear-gradient(135deg, var(--primary) 0%, var(--electric) 100%);
+  --gradient-brand-soft: linear-gradient(
+    135deg,
+    color-mix(in oklab, var(--primary) 22%, transparent) 0%,
+    color-mix(in oklab, var(--electric) 14%, transparent) 100%
+  );
+  --gradient-panel: linear-gradient(
+    180deg,
+    color-mix(in oklab, var(--surface-raised) 70%, transparent) 0%,
+    var(--card) 100%
+  );
+  --gradient-scrim: linear-gradient(
+    90deg,
+    var(--background) 0%,
+    color-mix(in oklab, var(--background) 82%, transparent) 45%,
+    color-mix(in oklab, var(--background) 20%, transparent) 100%
+  );
+  --shadow-glow: 0 10px 40px -12px color-mix(in oklab, var(--primary) 55%, transparent);
+  --shadow-panel: 0 1px 0 0 oklch(1 0 0 / 5%) inset, 0 20px 50px -30px oklch(0 0 0 / 70%);
+}
+
+@utility bg-gradient-brand {
+  background-image: var(--gradient-brand);
+}
+@utility bg-gradient-brand-soft {
+  background-image: var(--gradient-brand-soft);
+}
+@utility bg-gradient-scrim {
+  background-image: var(--gradient-scrim);
+}
+@utility text-gradient-brand {
+  background-image: var(--gradient-brand);
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+}
+@utility shadow-glow {
+  box-shadow: var(--shadow-glow);
+}
+@utility surface-panel {
+  background-image: var(--gradient-panel);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-panel);
+}
+@utility timecode {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+@utility font-display {
+  font-family: var(--font-display);
+  letter-spacing: -0.02em;
+}
+
+@keyframes float-glow {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+    opacity: 0.55;
+  }
+  50% {
+    transform: translate3d(4%, -6%, 0) scale(1.08);
+    opacity: 0.8;
+  }
+}
+@keyframes scan {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
 }
 
 @layer base {
@@ -148,8 +204,37 @@
     border-color: var(--color-border);
   }
 
+  html {
+    color-scheme: dark;
+  }
+
   body {
     background-color: var(--color-background);
     color: var(--color-foreground);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-display);
+    letter-spacing: -0.02em;
+  }
+
+  /* Scheduler calendar: dot under days that have planned posts */
+  .day-planned button {
+    position: relative;
+  }
+  .day-planned button::after {
+    content: "";
+    position: absolute;
+    bottom: 3px;
+    left: 50%;
+    width: 4px;
+    height: 4px;
+    border-radius: 999px;
+    background: var(--electric);
+    transform: translateX(-50%);
   }
 }
